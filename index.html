@@ -2,33 +2,66 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>シンプル時計</title>
+  <title>あんどうクロック</title>
   <style>
     body {
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       height: 100vh;
-      background: #1a1a1a;
-      color: #00ffcc;
+      margin: 0;
+      background: white;
+      color: black;
       font-family: 'Courier New', monospace;
     }
+
     #clock {
       font-size: 5rem;
       letter-spacing: 5px;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    #date {
+      margin-top: 20px;
+      font-size: 2rem;
+      transition: opacity 0.3s ease-in-out;
     }
   </style>
 </head>
 <body>
   <div id="clock"></div>
+  <div id="date"></div>
 
   <script>
     function updateClock() {
       const now = new Date();
+
+      // 時刻
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const seconds = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+      const timeText = `${hours}:${minutes}:${seconds}`;
+
+      // 日付
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const dateText = `${year}年${month}月${day}日`;
+
+      // アニメーション風に更新
+      const clockEl = document.getElementById('clock');
+      const dateEl = document.getElementById('date');
+
+      clockEl.style.opacity = 0;
+      dateEl.style.opacity = 0;
+
+      setTimeout(() => {
+        clockEl.textContent = timeText;
+        dateEl.textContent = dateText;
+        clockEl.style.opacity = 1;
+        dateEl.style.opacity = 1;
+      }, 150);
     }
 
     setInterval(updateClock, 1000);
@@ -36,4 +69,3 @@
   </script>
 </body>
 </html>
-
